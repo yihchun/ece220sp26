@@ -35,11 +35,11 @@ void insertsort(int *arr, int len) {
         tmp = arr[i];
         arr[i] = arr[sm_idx];
         arr[sm_idx] = tmp;
-        print_array(arr, len);
+        //print_array(arr, len);
     }
 }
 
-#define ARR_LEN 20
+#define ARR_LEN 200000
 
 int main() {
     FILE *fp = fopen("/dev/urandom", "r");
@@ -47,7 +47,7 @@ int main() {
     int i;
     for (i=0; i<ARR_LEN; i++)
         arr[i] = fgetc(fp);
-    print_array(arr, ARR_LEN);
+    //print_array(arr, ARR_LEN);
     insertsort(arr, ARR_LEN);
-    print_array(arr, ARR_LEN);
+    //print_array(arr, ARR_LEN);
 }
