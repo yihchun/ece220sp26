@@ -145,8 +145,10 @@ public:
         BSTNode<T> *tmp = *walk;
         if ((*walk)->right) {
             *walk = (*walk)->right;
+            tmp->right = nullptr;
         } else {
             *walk = (*walk)->left;
+            tmp->left = nullptr;
         }
         delete tmp;
     }
@@ -170,13 +172,12 @@ int main() {
         std::cout << v << " ";
     std::cout << "\n";
     
-    t.delete_node(4);
+    t.delete_node(5);
     t.print_inorder();
     for (BSTIterator<int> it = t.begin(); it != t.end(); it++) {
         std::cout << *it << " ";
     }
     std::cout << "\n";
-    /* somehow, delete_node(4) crashes my system (MacOS). no idea why. 
     t.delete_node(3);
     t.print_inorder();
     t.delete_node(4);
@@ -185,8 +186,10 @@ int main() {
     t.print_inorder();
     t.delete_node(7);
     t.print_inorder();
-    */
-
+    for (BSTIterator<int> it = t.begin(); it != t.end(); it++) {
+        std::cout << *it << " ";
+    }
+    std::cout << "\n";
 
     // not allowed: x->insert(0);
     return 0;
