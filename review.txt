@@ -1,0 +1,75 @@
+Registers in LC3: R0~R7, PC, MDR, MAR, KBSR, KBDR, DSR, DDR, USP, SSP, IR, PSR
+Instructions: ADD AND NOT 
+Data Movements: LD LDR LDI LEA ST STI STR
+Control Flow: JSR/JSRR JMP TRAP BR RTI
+PSR: Condition codes (nzp), Priority (3 bits), User/Supervisor
+TRAP: HALT, GETC, IN, OUT, PUTS, [PUTSP]
+Subroutines: Calling conventions (caller- vs callee-save), JSR/RET, R7
+             When to save R7: when a subroutine calls another subroutine/trap
+Stack: data structure that holds information, last in first out (LIFO)
+Things to do with a stack: push/pop, arithmetic (post-order traversal / RPN),
+       match parenthesis, ["pushdown automata" stack+FSM (374)]
+Runtime Stack: definition of automatic allocation, reason is because function calls are LIFO
+  caller setup: push the arguments from right to left (mnemonic: printf), JSR function
+  callee setup: push bookkeeping (rv space, return address (r7), caller frame pointer (br5))
+                push local variables, set R5 to bottommost local variable
+  [run the callee until it's ready to return]
+  callee teardown: save return value, restore r7, restore r5,
+                   pop everything except the return value, RET
+  caller teardown: pop return value & arguments
+Scope: area in which you can use an identifier (global or local [and file, static global])
+There are three types of allocation in C:
+  static (globals and static local variables) (live forever, data segment)
+  automatic allocation (non-static local variables) (live for duration of function, stack)
+  dynamic (malloc/free) (live at the pleasure of the programmer, heap)
+Data types: 2's complement (int, long, short, char), IEEE 754 (float, double)
+     qualifiers: unsigned, const
+Operators: math (+-/*%) assignment (=) logical (~&|^, &&, ||, !, >>, <<) 
+           comparison (<=, <, >=, >, ==) compound (+= -= /= *= %= &= |= ^= ++ --)
+Control structures, basic I/O (printf, scanf)
+Functions: parameters, return type, return keyword
+           pass-by-value (if you want pass-by-reference, pass a pointer)
+Pointers: "address of" a thing, expansion of type system int => int *
+          unary operators: & (address-of) , * (dereference)
+          arithmetic: + and -, array index []
+Arrays: pass-by-reference only, duality (array looks like a ptr to the first element)
+Strings: null-terminated character array
+Multi-dimensional arrays: stored in row-major order as a 1D array (deal with it when you pass)
+                  To decode: i*col+j
+                  int a[5][6]; [a[0][0] ... a[0][5] a[1][0] ... a[1][5] ...]
+Recursion: write your comment, function signature, base case, decompose the problem,
+           use the force: 1 or more recursive calls (MUST progress to a base case),
+           reassemble the answer
+Backtracking: Guess the solution, recurse (solve rest of the problem),
+              if success, we're done; if fail, guess again
+              if you run out of guesses, impossible as posed (return false)
+File I/O: fopen, modes ('r', 'w', 'a', '+' modifier), fclose, FILE *,
+     fscanf, fgets, fgetc, fprintf, fputs, fputc, [sscanf]
+Data structures: struct data type == bundles types together into a record
+     stored contiguously* [alignment], types can be homogeneous or heterogeneous
+     union == choice of types, can be co-located, bug-prone
+     enum == special kind of integer, assigns values to names
+Dynamic memory allocation: malloc, calloc, realloc, free, sizeof (operator)
+        why? sometimes you don't know how big something will be at compile time
+        [compile time limits are only required by ANSI C, C99 lets you have variable length
+        arrays, so theoretically this is runtime, practically stack is of finite size]
+Linked lists: head, optionally tail, node structure with data & next pointer & optionally prev
+       Good: insert at a named location, delete from a named location (w double ptr)
+       OK: sorting is achievable (mergesort [O(n log n)])
+       Bad: Random access
+       [std::deque -- C++ structure with advantages of arrays and some of linked lists]
+C-to-LC-3 with linked structures
+C++ Objects: struct + methods + protection == objects, polymorphism, inheritence, 
+    constructors, destructors, new/delete, this
+Virtual functions: virtual functions and virtual function tables
+Deep structure: constructor, copy-constructor, destructor, copy-assignment, [move]
+C++ I/O: std::cin, std::cout
+Other C++ "niceties": references, overloading
+C++ iterators, templates
+STL: std::vector (dynamic array, random access fast), std::list (doubly-linked list)
+Iterators (without auto) [iterators with auto]
+Trees: root, children (BST at most 2), depth, height, level, leaf, internal node, parent, ancestor, descendent, left, right
+Traversal: breadth-first, depth-first (pre-order, in-order, post-order)
+[Fun summer reading: trie, red-black trees, AVL trees]
+
+
